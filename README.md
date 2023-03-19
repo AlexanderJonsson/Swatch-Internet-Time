@@ -25,7 +25,7 @@ String swatchTimeStringWithoutDecimals = InternetTime.getCurrentTimeAsString(Tim
 // Returns a String representation of the current Swatch Internet Time in the format "@<time_in_beats>.beats"
 String swatchTimeString = InternetTime.toString(); // e.g. "@9.23.beats"
 ```
-Note that the getCurrentTimeAsString() method both allow you to specify a TimeFormat enum value to control the formatting of the returned value. The TimeFormat enum has two values: WITH_DECIMALS and WITHOUT_DECIMALS. If you don't specify a TimeFormat, the default is WITH_DECIMALS.
+Note that the getCurrentTimeAsString() method both allow you to specify a TimeFormat enum value to control the formatting of the returned value. The TimeFormat enum has four values:  WITH_CENTIBEATS, WITHOUT_CENTIBEATS, CENTIBEATS_WITHOUT_LEADING_ZEROES, WITHOUT_CENTIBEATS_WITHOUT_LEADING_ZEROES. If you don't specify a TimeFormat, the default is WITH_DECIMALS.
 ```java
 public enum TimeFormat {
     WITH_CENTIBEATS,
