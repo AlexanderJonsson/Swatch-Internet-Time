@@ -1,0 +1,3 @@
+rootProject.name = 'Swatch-Internet-Time'
+include('lib')
+
