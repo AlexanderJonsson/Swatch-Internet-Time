@@ -1,10 +1,9 @@
 package se.alexanderjonsson;
 
-import java.text.DecimalFormat;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
-public class InternetTime {
+public final class InternetTime {
     public static Integer getCurrentTimeAsInteger() {
         long currentTimeInMillis = getCurrentTimeInZurichAsSeconds();
         double swatchTime = (double) currentTimeInMillis / 86400 * 1000;
