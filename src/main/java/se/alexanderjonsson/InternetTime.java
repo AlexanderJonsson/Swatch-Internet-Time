@@ -25,7 +25,9 @@ public class InternetTime {
             default: return null;
         }
     }
-
+    public static String getCurrentTimeAsString() {
+        return getCurrentTimeAsString(TimeFormat.WITH_DECIMALS);
+    }
     private static long getCurrentTimeInZurichAsSeconds() {
         ZoneId timezone = ZoneId.of("Europe/Zurich");
         LocalTime now = LocalTime.now(timezone);
