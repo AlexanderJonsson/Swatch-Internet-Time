@@ -17,13 +17,13 @@ public class InternetTime {
     }
 
     public static String getCurrentTimeAsString(TimeFormat format) {
-        String decimalFormattedString;
-        if (format == TimeFormat.WITH_DECIMALS) {
-            decimalFormattedString = new DecimalFormat("#.##").format(getCurrentTimeAsDouble());
-        } else {
-            decimalFormattedString = new DecimalFormat("#").format(getCurrentTimeAsDouble());
+        switch (format){
+            case WITH_DECIMALS: return String.format("%06.2f",getCurrentTimeAsDouble()).replace(",",".");
+            case WITHOUT_DECIMALS: return String.format("%03d",getCurrentTimeAsInteger()).replace(",",".");
+            case WITHOUT_DECIMALS_WITHOUT_LEADING_ZEROES: return String.format("%s",getCurrentTimeAsInteger()).replace(",",".");
+            case DECIMALS_WITHOUT_LEADING_ZEROES: return String.format("%.2f",getCurrentTimeAsDouble()).replace(",",".");
+            default: return null;
         }
-        return decimalFormattedString.replace(",", ".");
     }
 
     private static long getCurrentTimeInZurichAsSeconds() {
@@ -35,6 +35,6 @@ public class InternetTime {
 
     @Override
     public String toString() {
-        return String.format("@%s.beats", getCurrentTimeAsString(TimeFormat.WITH_DECIMALS));
+        return String.format("@%s .beats", getCurrentTimeAsString(TimeFormat.WITH_DECIMALS));
     }
 }
