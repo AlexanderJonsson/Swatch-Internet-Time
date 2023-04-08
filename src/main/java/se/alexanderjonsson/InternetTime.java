@@ -2,10 +2,14 @@ package se.alexanderjonsson;
 
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+
 public final class InternetTime {
     /**
      * This method returns the current time in Swatch .beats as an integer derived from the
      * following formula: (currentTimeInSeconds / 86400 * 1000).
+     *
      * @return an Integer representing the current time in .beats
      */
     public static Integer getCurrentTimeAsInteger() {
@@ -17,6 +21,7 @@ public final class InternetTime {
     /**
      * This method returns the current time in Swatch .beats as a Double derived from the
      * following formula: (currentTimeInSeconds / 86400 * 1000).
+     *
      * @return a Double representing the current time in .beats
      */
     public static Double getCurrentTimeAsDouble() {
@@ -33,17 +38,23 @@ public final class InternetTime {
      * @return a string formatted according to the chosen parameter.
      */
     public static String getCurrentTimeAsString(TimeFormat format) {
-        switch (format){
-            case WITH_CENTIBEATS: return String.format("%06.2f",getCurrentTimeAsDouble()).replace(",",".");
-            case WITHOUT_CENTIBEATS: return String.format("%03d",getCurrentTimeAsInteger()).replace(",",".");
-            case WITHOUT_CENTIBEATS_WITHOUT_LEADING_ZEROES: return String.format("%s",getCurrentTimeAsInteger()).replace(",",".");
-            case CENTIBEATS_WITHOUT_LEADING_ZEROES: return String.format("%.2f",getCurrentTimeAsDouble()).replace(",",".");
-            default: return getCurrentTimeAsString();
+        switch (format) {
+            case WITH_CENTIBEATS:
+                return String.format("%06.2f", getCurrentTimeAsDouble()).replace(",", ".");
+            case WITHOUT_CENTIBEATS:
+                return String.format("%03d", getCurrentTimeAsInteger()).replace(",", ".");
+            case WITHOUT_CENTIBEATS_WITHOUT_LEADING_ZEROES:
+                return String.format("%s", getCurrentTimeAsInteger()).replace(",", ".");
+            case CENTIBEATS_WITHOUT_LEADING_ZEROES:
+                return String.format("%.2f", getCurrentTimeAsDouble()).replace(",", ".");
+            default:
+                return getCurrentTimeAsString();
         }
     }
 
     /**
      * This method overloads getCurrentTimeAsString(TimeFormat format)
+     *
      * @return a String representing the current time in .beats
      */
     public static String getCurrentTimeAsString() {
@@ -52,17 +63,29 @@ public final class InternetTime {
 
     /**
      * This method returns the current time in Zurich as number of seconds since midnight in order to be used in the Swatch Internet Time calculations
+     *
      * @return the number of seconds since midnight in Zurich
      */
     private static long getCurrentTimeInZurichAsSeconds() {
         ZoneId timezone = ZoneId.of("Europe/Zurich");
-        LocalTime now = LocalTime.now(timezone);
+        ZonedDateTime now = ZonedDateTime.now(timezone);
+        boolean isDST = now.getZone().getRules().isDaylightSavings(now.toInstant());
+
+        if (isDST) {
+            ZoneOffset offset = ZoneOffset.of("+01:00"); // Set the offset to +01:00 (Zurich time without DST)
+            now = now.withZoneSameInstant(offset); // Convert to Zurich time without DST
+
+
+        } else {
+            now = now.withZoneSameInstant(timezone); // Convert to non-DST time zone
+        }
+
+        LocalTime localNow = now.toLocalTime();
         LocalTime midnight = LocalTime.MIDNIGHT;
-        return now.toSecondOfDay() - midnight.toSecondOfDay();
+        return localNow.toSecondOfDay() - midnight.toSecondOfDay();
     }
 
     /**
-     *
      * @return a pretty string representation of the current time in .beats.
      */
     @Override
