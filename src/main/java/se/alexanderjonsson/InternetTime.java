@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 public final class InternetTime {
  private InternetTime() {}
@@ -39,6 +40,7 @@ public final class InternetTime {
      * @return a string formatted according to the chosen parameter.
      */
     public static String getCurrentTimeAsString(TimeFormat format) {
+        Objects.requireNonNull(format);
         switch (format) {
             case WITH_CENTIBEATS:
                 return String.format("%06.2f", getCurrentTimeAsDouble()).replace(",", ".");
@@ -49,7 +51,7 @@ public final class InternetTime {
             case CENTIBEATS_WITHOUT_LEADING_ZEROES:
                 return String.format("%.2f", getCurrentTimeAsDouble()).replace(",", ".");
             default:
-                return getCurrentTimeAsString();
+                throw new AssertionError("Unhandled TimeFormat: " + format);
         }
     }
 
