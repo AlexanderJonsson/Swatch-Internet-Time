@@ -6,6 +6,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 public final class InternetTime {
+ private InternetTime() {}
     /**
      * This method returns the current time in Swatch .beats as an integer derived from the
      * following formula: (currentTimeInSeconds / 86400 * 1000).
@@ -88,8 +89,7 @@ public final class InternetTime {
     /**
      * @return a pretty string representation of the current time in .beats.
      */
-    @Override
-    public String toString() {
+    public static String getCurrentTimePrettyString() {
         return String.format("@%s .beats", getCurrentTimeAsString(TimeFormat.WITH_CENTIBEATS));
     }
 }
