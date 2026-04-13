@@ -15,7 +15,7 @@ public final class InternetTime {
     public static Integer getCurrentTimeAsInteger() {
         long currentTimeInSeconds = getCurrentTimeInZurichAsSeconds();
         double swatchTime = (double) currentTimeInSeconds / 86400 * 1000;
-        return (int) Math.round(swatchTime);
+        return (int) Math.floor(swatchTime);
     }
 
     /**
