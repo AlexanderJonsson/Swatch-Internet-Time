@@ -1,14 +1,13 @@
 package se.alexanderjonsson;
 
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public final class InternetTime {
-    private static final double SECONDS_PER_DAY = 86_400d;
     private static final double BEATS_PER_DAY = 1_000d;
+    private static final double NANOSECONDS_PER_DAY = 86_400_000_000_000d;
+    private static final ZoneOffset BIEL_MEAN_TIME_OFFSET = ZoneOffset.ofHours(1);
 
     private InternetTime() {}
 
@@ -27,7 +26,7 @@ public final class InternetTime {
      * @return a Double representing the current time in .beats
      */
     public static Double getCurrentTimeAsDouble() {
-        return toSwatchTime(getCurrentTimeInZurichAsSeconds());
+        return toSwatchTime(getCurrentTimeInBielMeanTime());
     }
 
     /**
@@ -53,8 +52,9 @@ public final class InternetTime {
         }
     }
 
-    private static double toSwatchTime(long currentTimeInSeconds) {
-        return currentTimeInSeconds / SECONDS_PER_DAY * BEATS_PER_DAY;
+    static double toSwatchTime(LocalTime currentTime) {
+        Objects.requireNonNull(currentTime);
+        return currentTime.toNanoOfDay() / NANOSECONDS_PER_DAY * BEATS_PER_DAY;
     }
 
     /**
@@ -67,27 +67,13 @@ public final class InternetTime {
     }
 
     /**
-     * This method returns the current time in Zurich as number of seconds since midnight in order to be used in the Swatch Internet Time calculations
+     * This method returns the current time in Biel Mean Time (UTC+01:00), which is
+     * the fixed reference used for Swatch Internet Time.
      *
-     * @return the number of seconds since midnight in Zurich
+     * @return the current Biel Mean Time
      */
-    private static long getCurrentTimeInZurichAsSeconds() {
-        ZoneId timezone = ZoneId.of("Europe/Zurich");
-        ZonedDateTime now = ZonedDateTime.now(timezone);
-        boolean isDST = now.getZone().getRules().isDaylightSavings(now.toInstant());
-
-        if (isDST) {
-            ZoneOffset offset = ZoneOffset.of("+01:00"); // Set the offset to +01:00 (Zurich time without DST)
-            now = now.withZoneSameInstant(offset); // Convert to Zurich time without DST
-
-
-        } else {
-            now = now.withZoneSameInstant(timezone); // Convert to non-DST time zone
-        }
-
-        LocalTime localNow = now.toLocalTime();
-        LocalTime midnight = LocalTime.MIDNIGHT;
-        return localNow.toSecondOfDay() - midnight.toSecondOfDay();
+    private static LocalTime getCurrentTimeInBielMeanTime() {
+        return LocalTime.now(BIEL_MEAN_TIME_OFFSET);
     }
 
     /**
