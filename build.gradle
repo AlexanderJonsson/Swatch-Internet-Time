@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'se.alexanderjonsson'
-version = '0.1.1'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -11,14 +11,13 @@ repositories {
 dependencies {
     testImplementation 'junit:junit:4.13.2'
 }
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(8)
     }
     withJavadocJar()
+    withSourcesJar()
 }
-
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs += [
             "-Xlint:all",
