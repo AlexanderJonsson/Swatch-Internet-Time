@@ -2,8 +2,8 @@ plugins {
     id 'java-library'
 }
 
-group 'se.alexanderjonsson'
-version '0.1.1'
+group = 'se.alexanderjonsson'
+version = '0.1.1'
 
 repositories {
     mavenCentral()
