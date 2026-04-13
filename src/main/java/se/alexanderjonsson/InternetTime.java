@@ -7,33 +7,31 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public final class InternetTime {
- private InternetTime() {}
+    private static final double SECONDS_PER_DAY = 86_400d;
+    private static final double BEATS_PER_DAY = 1_000d;
+
+    private InternetTime() {}
+
     /**
-     * This method returns the current time in Swatch .beats as an integer derived from the
-     * following formula: (currentTimeInSeconds / 86400 * 1000).
+     * This method returns the current time in Swatch .beats as an integer.
      *
      * @return an Integer representing the current time in .beats
      */
     public static Integer getCurrentTimeAsInteger() {
-        long currentTimeInSeconds = getCurrentTimeInZurichAsSeconds();
-        double swatchTime = (double) currentTimeInSeconds / 86400 * 1000;
-        return (int) Math.floor(swatchTime);
+        return (int) Math.floor(getCurrentTimeAsDouble());
     }
 
     /**
-     * This method returns the current time in Swatch .beats as a Double derived from the
-     * following formula: (currentTimeInSeconds / 86400 * 1000).
+     * This method returns the current time in Swatch .beats as a Double.
      *
      * @return a Double representing the current time in .beats
      */
     public static Double getCurrentTimeAsDouble() {
-        long currentTimeInSeconds = getCurrentTimeInZurichAsSeconds();
-        return (double) currentTimeInSeconds / 86400 * 1000;
+        return toSwatchTime(getCurrentTimeInZurichAsSeconds());
     }
 
     /**
-     * This method returns the current time in Swatch .beats as a String derived from the
-     * following formula: (currentTimeInSeconds / 86400 * 1000).
+     * This method returns the current time in Swatch .beats as a String.
      * The string can be formatted by supplying the desired TimeFormat enum
      *
      * @param format select the desired TimeFormat enum to pick how the string is formatted
@@ -53,6 +51,10 @@ public final class InternetTime {
             default:
                 throw new AssertionError("Unhandled TimeFormat: " + format);
         }
+    }
+
+    private static double toSwatchTime(long currentTimeInSeconds) {
+        return currentTimeInSeconds / SECONDS_PER_DAY * BEATS_PER_DAY;
     }
 
     /**
