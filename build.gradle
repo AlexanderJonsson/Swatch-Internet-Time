@@ -5,6 +5,13 @@ plugins {
 group 'se.alexanderjonsson'
 version '0.1.1'
 
+repositories {
+    mavenCentral()
+}
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(8)
@@ -18,4 +25,3 @@ tasks.withType(JavaCompile).configureEach {
             "-Werror"
     ]
 }
-
