@@ -1,6 +1,6 @@
 # Swatch Internet Time Java Library
 
-This library provides a small Java API for reading the current Swatch Internet Time in `.beats`.
+This library provides a minimal Java API for reading the current Swatch Internet Time in `.beats`.
 
 Swatch Internet Time divides a day into 1,000 beats, where each beat is 86.4 seconds. The library uses Biel Mean Time (`UTC+01:00`), the fixed reference timezone used by Swatch Internet Time.
 
