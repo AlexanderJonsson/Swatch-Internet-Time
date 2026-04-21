@@ -1,9 +1,11 @@
 .gradle
-build/
+/build/*
+!/build/docs/
+!/build/docs/**
+!/docs
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
 ### IntelliJ IDEA ###
 .idea/
 *.iws
@@ -37,3 +39,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+*.swp
+/build/

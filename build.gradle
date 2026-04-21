@@ -18,6 +18,12 @@ java {
     withJavadocJar()
     withSourcesJar()
 }
+
+
+tasks.named('javadoc') {
+    destinationDir = file("$projectDir/docs")
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs += [
             "-Xlint:all",
