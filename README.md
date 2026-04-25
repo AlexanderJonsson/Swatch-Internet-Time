@@ -49,3 +49,5 @@ public enum TimeFormat {
 ```
 
 `InternetTime.getCurrentTimeAsString()` defaults to `TimeFormat.WITH_CENTIBEATS`.
+
+Read more at [swatch.com](https://www.swatch.com/en-us/internet-time.html)
